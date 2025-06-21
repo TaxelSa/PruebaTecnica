@@ -1,5 +1,24 @@
-html, body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+/* Estilo con máxima especificidad para el fondo */
+html, body, body > div, #app, #app > div,
+html > body, body > div#app, body > div#app > div,
+body > div > div, #app > div > div {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+    background-color: #bbd49c !important; /* Color de fondo principal */
+    background: #bbd49c !important; /* Doble seguro */
+    margin: 0 !important;
+    padding: 0 !important;
+    min-height: 100vh !important;
+    width: 100% !important;
+}
+
+/* Reset para cualquier elemento que pueda estar cubriendo */
+body::before,
+body::after,
+#app::before,
+#app::after,
+div[style*="background"] {
+    background-color: #bbd49c !important;
+    background: #bbd49c !important;
 }
 
 a, .btn-link {
@@ -13,7 +32,7 @@ a, .btn-link {
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+  box-shadow: 0 0 0 0.1rem #6c7484, 0 0 0 0.25rem #253924;
 }
 
 .content {
@@ -48,4 +67,22 @@ h1:focus {
 
 .darker-border-checkbox.form-check-input {
     border-color: #929292;
+}
+.skeleton-table {
+    margin: 1rem 0;
+}
+.skeleton-row {
+    height: 24px;
+    background: #e0e0e0;
+    margin-bottom: 8px;
+    border-radius: 4px;
+    animation: skeleton-loading 1.2s infinite linear alternate;
+}
+@keyframes skeleton-loading {
+    0% {
+        background-color: #e0e0e0;
+    }
+    100% {
+        background-color: #f5f5f5;
+    }
 }

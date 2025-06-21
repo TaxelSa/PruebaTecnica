@@ -1,7 +1,15 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    width: 100%;
+}
+
 .page {
     position: relative;
     display: flex;
     flex-direction: column;
+    min-height: 100vh;
 }
 
 main {
@@ -9,16 +17,29 @@ main {
 }
 
 .sidebar {
-    background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
+    background-image: linear-gradient(180deg, rgb(187, 212, 156) 0%, #1d7358 70%);
 }
 
 .top-row {
-    background-color: #f7f7f7;
-    border-bottom: 1px solid #d6d5d5;
+    background-color: #1a2d1a !important; /* Color verde oscuro más intenso */
+    border-bottom: 1px solid #1a2d1a !important;
     justify-content: flex-end;
     height: 3.5rem;
     display: flex;
     align-items: center;
+    color: white !important;
+}
+
+/* Estilos para los form-control */
+.form-control {
+    background-color: #f8f9fa !important;
+    border: 1px solid #1a2d1a !important;
+    color: #212529 !important;
+}
+
+.form-control:focus {
+    border-color: #1a2d1a !important;
+    box-shadow: 0 0 0 0.2rem rgba(38, 143, 36, 0.25) !important;
 }
 
     .top-row ::deep a, .top-row ::deep .btn-link {
@@ -94,3 +115,5 @@ main {
         right: 0.75rem;
         top: 0.5rem;
     }
+
+

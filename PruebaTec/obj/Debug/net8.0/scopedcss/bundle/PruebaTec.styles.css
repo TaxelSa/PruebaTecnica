@@ -1,8 +1,16 @@
 /* _content/PruebaTec/Components/Layout/MainLayout.razor.rz.scp.css */
+html[b-5zwftgogjn], body[b-5zwftgogjn] {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    width: 100%;
+}
+
 .page[b-5zwftgogjn] {
     position: relative;
     display: flex;
     flex-direction: column;
+    min-height: 100vh;
 }
 
 main[b-5zwftgogjn] {
@@ -10,16 +18,29 @@ main[b-5zwftgogjn] {
 }
 
 .sidebar[b-5zwftgogjn] {
-    background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
+    background-image: linear-gradient(180deg, rgb(187, 212, 156) 0%, #1d7358 70%);
 }
 
 .top-row[b-5zwftgogjn] {
-    background-color: #f7f7f7;
-    border-bottom: 1px solid #d6d5d5;
+    background-color: #1a2d1a !important; /* Color verde oscuro más intenso */
+    border-bottom: 1px solid #1a2d1a !important;
     justify-content: flex-end;
     height: 3.5rem;
     display: flex;
     align-items: center;
+    color: white !important;
+}
+
+/* Estilos para los form-control */
+.form-control[b-5zwftgogjn] {
+    background-color: #f8f9fa !important;
+    border: 1px solid #1a2d1a !important;
+    color: #212529 !important;
+}
+
+.form-control:focus[b-5zwftgogjn] {
+    border-color: #1a2d1a !important;
+    box-shadow: 0 0 0 0.2rem rgba(38, 143, 36, 0.25) !important;
 }
 
     .top-row[b-5zwftgogjn]  a, .top-row[b-5zwftgogjn]  .btn-link {
@@ -95,6 +116,8 @@ main[b-5zwftgogjn] {
         right: 0.75rem;
         top: 0.5rem;
     }
+
+
 /* _content/PruebaTec/Components/Layout/NavMenu.razor.rz.scp.css */
 .navbar-toggler[b-xc5x1hm73p] {
     appearance: none;
@@ -113,7 +136,7 @@ main[b-5zwftgogjn] {
     background-color: rgba(255, 255, 255, 0.5);
 }
 
-.top-row[b-xc5x1hm73p] {
+.top -row[b-xc5x1hm73p] {
     height: 3.5rem;
     background-color: rgba(0,0,0,0.4);
 }
