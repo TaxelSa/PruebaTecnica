@@ -1,0 +1,121 @@
+@page "/registro"
+@using Microsoft.EntityFrameworkCore
+@inject PruebaTecContext _context
+@using PruebaTec.Models
+
+<h3>Nuevo Estudiante</h3>
+
+<EditForm Model="nuevoEstudiante" OnValidSubmit="GuardarEstudiante">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div>
+        <label>Nombres:</label>
+        <InputText @bind-Value="nuevoEstudiante.Nombres" class="form-control" />
+    </div>
+
+    <div>
+        <label>Apellidos:</label>
+        <InputText @bind-Value="nuevoEstudiante.Apellidos" class="form-control" />
+    </div>
+
+    <div>
+        <label>Fecha de Nacimiento:</label>
+        <InputDate @bind-Value="nuevoEstudiante.FechaNacimiento" class="form-control" />
+    </div>
+
+    <div>
+        <label>Dirección:</label>
+        <InputText @bind-Value="nuevoEstudiante.Direccion" class="form-control" />
+    </div>
+
+    <div>
+        <label>Sexo:</label>
+        <InputSelect @bind-Value="nuevoEstudiante.Sexo" class="form-control">
+            <option value="">Seleccione</option>
+            <option value="M">Masculino</option>
+            <option value="F">Femenino</option>
+            <option value="O">Otro</option>
+        </InputSelect>
+    </div>
+
+    <div>
+        <label>CURP:</label>
+        <InputText @bind-Value="nuevoEstudiante.CURP" class="form-control" />
+    </div>
+
+    <div>
+        <label>Teléfono:</label>
+        <InputText @bind-Value="nuevoEstudiante.Telefono" class="form-control" />
+    </div>
+
+    <div>
+        <label>Email:</label>
+        <InputText @bind-Value="nuevoEstudiante.Email" class="form-control" />
+    </div>
+
+    <div>
+        <label>Carrera:</label>
+        <InputSelect @bind-Value="nuevoEstudiante.IdCarrera" class="form-control">
+            <option value="">Seleccione</option>
+            @foreach (var c in carreras)
+            {
+                <option value="@c.IdCarrera">@c.NombreCarrera</option>
+            }
+        </InputSelect>
+    </div>
+
+    <div>
+        <label>¿Es Becado?</label>
+        <InputCheckbox @bind-Value="nuevoEstudiante.EsBecado" />
+    </div>
+
+    <div>
+        <label>Modalidad:</label>
+        <InputSelect @bind-Value="nuevoEstudiante.Modalidad" class="form-control">
+            <option value="">Seleccione</option>
+            <option value="Presencial">Presencial</option>
+            <option value="Online">Online</option>
+            <option value="Ambos">Ambos</option>
+        </InputSelect>
+    </div>
+
+    <div>
+        <label>Descripción personal:</label>
+        <InputTextArea @bind-Value="nuevoEstudiante.DescripcionPersonal" class="form-control" />
+    </div>
+
+    <div>
+        <label>¿tiene Mascotas?</label>
+        <InputCheckbox @bind-Value="nuevoEstudiante.TieneMascotas" />
+    </div>
+
+    <div>
+        <label> ¿Cuáles?:</label>
+        <InputText @bind-Value="nuevoEstudiante.TiposMascotas" class="form-control" />
+    </div>
+
+    <div>
+        <label>Horario de comida:</label>
+        <InputText @bind-Value="nuevoEstudiante.HorarioComida" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3">Guardar</button>
+</EditForm>
+
+@code {
+    private Estudiante nuevoEstudiante = new();
+    private List<Carrera> carreras = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        carreras = await _context.Carreras.ToListAsync();
+    }
+
+    private async Task GuardarEstudiante()
+    {
+        _context.Estudiantes.Add(nuevoEstudiante);
+        await _context.SaveChangesAsync();
+        nuevoEstudiante = new(); // Limpia el formulario si quieres
+    }
+}

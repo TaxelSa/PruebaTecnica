@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\xampp\\htdocs\\PruebaTec\\PruebaTec\\PruebaTec.csproj": {}
+    "C:\\xampp\\htdocs\\PruebaTecnica\\PruebaTec\\PruebaTec.csproj": {}
   },
   "projects": {
-    "c:\\xampp\\htdocs\\PruebaTec\\PruebaTec\\PruebaTec.csproj": {
+    "C:\\xampp\\htdocs\\PruebaTecnica\\PruebaTec\\PruebaTec.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\xampp\\htdocs\\PruebaTec\\PruebaTec\\PruebaTec.csproj",
+        "projectUniqueName": "C:\\xampp\\htdocs\\PruebaTecnica\\PruebaTec\\PruebaTec.csproj",
         "projectName": "PruebaTec",
-        "projectPath": "c:\\xampp\\htdocs\\PruebaTec\\PruebaTec\\PruebaTec.csproj",
+        "projectPath": "C:\\xampp\\htdocs\\PruebaTecnica\\PruebaTec\\PruebaTec.csproj",
         "packagesPath": "C:\\Users\\LEGION\\.nuget\\packages\\",
-        "outputPath": "c:\\xampp\\htdocs\\PruebaTec\\PruebaTec\\obj\\",
+        "outputPath": "C:\\xampp\\htdocs\\PruebaTecnica\\PruebaTec\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\LEGION\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -43,6 +43,18 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[9.0.6, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[9.0.6, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

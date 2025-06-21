@@ -1,0 +1,61 @@
+@page "/estudiantes"
+@using Microsoft.EntityFrameworkCore;
+
+@using PruebaTec.Models
+@inject PruebaTecContext _context
+
+<h3 class="text-xl font-bold mb-4">Lista de Estudiantes</h3>
+
+@if (estudiantes == null)
+{
+    <p>Cargando estudiantes...</p>
+}
+else if (!estudiantes.Any())
+{
+    <p>No hay estudiantes registrados.</p>
+}
+else
+{
+    <table class="table table-bordered table-striped w-full">
+        <thead class="bg-gray-100">
+            <tr>
+                <th>ID</th>
+                <th>Nombre Completo</th>
+                <th>CURP</th>
+                <th>Correo</th>
+                <th>Teléfono</th>
+                <th>Sexo</th>
+                <th>Modalidad</th>
+                <th>Es Becado</th>
+                <th>Carrera</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var e in estudiantes)
+            {
+                <tr>
+                    <td>@e.Id</td>
+                    <td>@e.Nombres @e.Apellidos</td>
+                    <td>@e.CURP</td>
+                    <td>@e.Email</td>
+                    <td>@e.Telefono</td>
+                    <td>@e.Sexo</td>
+                    <td>@e.Modalidad</td>
+                    <td>@(e.EsBecado ? "Sí" : "No")</td>
+                    <td>@e.Carrera?.NombreCarrera</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    List<Estudiante>? estudiantes;
+
+    protected override async Task OnInitializedAsync()
+    {
+        estudiantes = await _context.Estudiantes
+            .Include(e => e.Carrera)
+            .ToListAsync();
+    }
+}
