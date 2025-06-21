@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using PruebaTec.Models;
 
 public class Estudiante
@@ -7,6 +8,7 @@ public class Estudiante
     public string Apellidos { get; set; } = string.Empty;
     public DateTime FechaNacimiento { get; set; }
     public string Direccion { get; set; } = string.Empty;
+
     public string Sexo { get; set; } = string.Empty;
     public string CURP { get; set; } = string.Empty;
     public string Telefono { get; set; } = string.Empty;

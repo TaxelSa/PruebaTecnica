@@ -1,11 +1,12 @@
 @page "/registro"
+@rendermode InteractiveServer
 @using Microsoft.EntityFrameworkCore
 @inject PruebaTecContext _context
 @using PruebaTec.Models
 
 <h3>Nuevo Estudiante</h3>
 
-<EditForm Model="nuevoEstudiante" OnValidSubmit="GuardarEstudiante">
+<EditForm Model="@nuevoEstudiante" OnValidSubmit="GuardarEstudiante" FormName="registroForm">
     <DataAnnotationsValidator />
     <ValidationSummary />
 
@@ -32,12 +33,15 @@
     <div>
         <label>Sexo:</label>
         <InputSelect @bind-Value="nuevoEstudiante.Sexo" class="form-control">
-            <option value="">Seleccione</option>
-            <option value="M">Masculino</option>
-            <option value="F">Femenino</option>
-            <option value="O">Otro</option>
+            <option value="" disabled>Seleccione</option>
+            <option value="Masculino">Masculino</option>
+            <option value="Femenino">Femenino</option>
+            <option value="Otro">Otro</option>
         </InputSelect>
+        <ValidationMessage For="@(() => nuevoEstudiante.Sexo)" />
     </div>
+
+    <p>Sexo seleccionado: @nuevoEstudiante.Sexo</p>
 
     <div>
         <label>CURP:</label>
@@ -86,12 +90,12 @@
     </div>
 
     <div>
-        <label>¿tiene Mascotas?</label>
+        <label>¿Tiene Mascotas?</label>
         <InputCheckbox @bind-Value="nuevoEstudiante.TieneMascotas" />
     </div>
 
     <div>
-        <label> ¿Cuáles?:</label>
+        <label>¿Cuáles?:</label>
         <InputText @bind-Value="nuevoEstudiante.TiposMascotas" class="form-control" />
     </div>
 
@@ -114,8 +118,13 @@
 
     private async Task GuardarEstudiante()
     {
+        Console.WriteLine($"Nombre: {nuevoEstudiante.Nombres}");
+        Console.WriteLine($"Sexo: {nuevoEstudiante.Sexo}");
+        Console.WriteLine($"Teléfono: {nuevoEstudiante.Telefono}");
+
         _context.Estudiantes.Add(nuevoEstudiante);
         await _context.SaveChangesAsync();
-        nuevoEstudiante = new(); // Limpia el formulario si quieres
+
+        nuevoEstudiante = new(); // Limpia el formulario
     }
 }
