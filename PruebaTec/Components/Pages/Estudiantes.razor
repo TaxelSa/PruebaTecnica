@@ -2,19 +2,20 @@
 @using Microsoft.EntityFrameworkCore;
 @using PruebaTec.Models
 @inject PruebaTecContext _context
+@rendermode InteractiveServer
+
 
 <h3 class="text-xl font-bold mb-4">Lista de Estudiantes</h3>
 
 @if (isLoading)
 {
-    <div class="skeleton-table">
-        @for (int i = 0; i < 5; i++)
-        {
-            <div class="skeleton-row"></div>
-        }
-    </div>
+    <p>Cargando estudiantes...</p>
 }
-else if (estudiantes is not null && estudiantes.Any())
+else if (pagedEstudiantes is null)
+{
+    <p class="text-danger">Error al cargar los estudiantes.</p>
+}
+else if (pagedEstudiantes is not null && pagedEstudiantes.Any())
 {
     <table class="table table-bordered table-striped w-full">
         <thead class="bg-gray-100">
@@ -32,7 +33,7 @@ else if (estudiantes is not null && estudiantes.Any())
             </tr>
         </thead>
         <tbody>
-            @foreach (var e in estudiantes)
+            @foreach (var e in pagedEstudiantes)
             {
                 <tr Key="@e.Id">
                     <td>@e.Id</td>
@@ -54,6 +55,17 @@ else if (estudiantes is not null && estudiantes.Any())
             }
         </tbody>
     </table>
+
+    <div class="d-flex justify-content-center align-items-center gap-3 mt-4">
+        <button class="btn btn-secondary" @onclick="AnteriorPagina" disabled="@(!PuedeRetroceder)">
+            <i class="oi oi-arrow-thick-left"></i> Anterior
+        </button>
+        <span class="mx-2">Página @paginaActual de @paginasTotales</span>
+        <button class="btn btn-secondary" @onclick="SiguientePagina" disabled="@(!PuedeAvanzar)">
+            Siguiente <i class="oi oi-arrow-thick-right"></i>
+        </button>
+    </div>
+
 } 
 else
 {
@@ -62,31 +74,75 @@ else
 
 @code {
     private List<Estudiante>? estudiantes;
+    private List<Estudiante>? pagedEstudiantes;
     private bool isLoading = true;
+    private int paginaActual = 1;
+    private const int tamañoPagina = 20;
+    private int totalEstudiantes = 0;
 
     [Inject]
     public NavigationManager NavigationManager { get; set; } = default!;
 
     protected override async Task OnInitializedAsync()
     {
+        await CargarDatos();
+    }
+
+    private async Task CargarDatos()
+    {
+        isLoading = true;
         try
         {
-            await Task.Delay(500); // Simula carga
-            estudiantes = await _context.Estudiantes.Include(e => e.Carrera).ToListAsync();
+            // Obtener el total de estudiantes
+            totalEstudiantes = await _context.Estudiantes.CountAsync();
+            
+            // Obtener solo los estudiantes de la página actual
+            pagedEstudiantes = await _context.Estudiantes
+                .Include(e => e.Carrera)
+                .OrderBy(e => e.Id)
+                .Skip((paginaActual - 1) * tamañoPagina)
+                .Take(tamañoPagina)
+                .ToListAsync();
+                
+            StateHasChanged();
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error cargando estudiantes: {ex.Message}");
+            Console.WriteLine($"Error al cargar estudiantes: {ex.Message}");
         }
         finally
         {
             isLoading = false;
         }
     }
+
+    private int paginasTotales => (int)Math.Ceiling((double)totalEstudiantes / tamañoPagina);
+    private bool PuedeAvanzar => paginaActual < paginasTotales;
+    private bool PuedeRetroceder => paginaActual > 1;
+
+    private async Task SiguientePagina()
+    {
+        if (PuedeAvanzar)
+        {
+            paginaActual++;
+            await CargarDatos();
+        }
+    }
+
+    private async Task AnteriorPagina()
+    {
+        if (PuedeRetroceder)
+        {
+            paginaActual--;
+            await CargarDatos();
+        }
+    }
+
     private void VerDetalles(int id)
     {
-        Console.WriteLine($"Clic en Ver Detalles, ID: {id}");
-
         NavigationManager.NavigateTo($"/estudiante/{id}");
     }
+
+
 }
+

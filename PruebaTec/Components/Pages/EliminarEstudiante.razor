@@ -32,7 +32,7 @@
 
                 // Redireccionar luego de 1.5 segundos
                 await Task.Delay(1500);
-                NavigationManager.NavigateTo("/");
+                await InvokeAsync(() => NavigationManager.NavigateTo("/"));
             }
             else
             {

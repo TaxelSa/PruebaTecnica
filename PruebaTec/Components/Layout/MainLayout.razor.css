@@ -3,31 +3,47 @@ html, body {
     padding: 0;
     min-height: 100vh;
     width: 100%;
+    overflow-x: hidden;
 }
 
 .page {
     position: relative;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     min-height: 100vh;
 }
 
 main {
     flex: 1;
+    margin-left: 250px; /* Ancho de la barra lateral */
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 .sidebar {
     background-image: linear-gradient(180deg, rgb(187, 212, 156) 0%, #1d7358 70%);
+    width: 250px;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    overflow-y: hidden; /* Elimina la barra de desplazamiento */
+    display: flex;
+    flex-direction: column;
 }
 
 .top-row {
-    background-color: #1a2d1a !important; /* Color verde oscuro más intenso */
+    background-color: #1a2d1a !important;
     border-bottom: 1px solid #1a2d1a !important;
-    justify-content: flex-end;
+    padding: 0 1.5rem;
     height: 3.5rem;
     display: flex;
     align-items: center;
     color: white !important;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 /* Estilos para los form-control */
@@ -42,20 +58,20 @@ main {
     box-shadow: 0 0 0 0.2rem rgba(38, 143, 36, 0.25) !important;
 }
 
-    .top-row ::deep a, .top-row ::deep .btn-link {
-        white-space: nowrap;
-        margin-left: 1.5rem;
-        text-decoration: none;
-    }
+.top-row ::deep a, .top-row ::deep .btn-link {
+    white-space: nowrap;
+    margin-left: 1.5rem;
+    text-decoration: none;
+}
 
-    .top-row ::deep a:hover, .top-row ::deep .btn-link:hover {
-        text-decoration: underline;
-    }
+.top-row ::deep a:hover, .top-row ::deep .btn-link:hover {
+    text-decoration: underline;
+}
 
-    .top-row ::deep a:first-child {
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
+.top-row ::deep a:first-child {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
 @media (max-width: 640.98px) {
     .top-row {
@@ -71,12 +87,13 @@ main {
     .page {
         flex-direction: row;
     }
-
+    
     .sidebar {
         width: 250px;
         height: 100vh;
-        position: sticky;
+        position: fixed;
         top: 0;
+        left: 0;
     }
 
     .top-row {
@@ -91,9 +108,15 @@ main {
         width: 0;
     }
 
-    .top-row, article {
+    .top-row {
         padding-left: 2rem !important;
         padding-right: 1.5rem !important;
+    }
+    
+    article.content {
+        padding: 20px;
+        flex: 1;
+        overflow-y: auto;
     }
 }
 
