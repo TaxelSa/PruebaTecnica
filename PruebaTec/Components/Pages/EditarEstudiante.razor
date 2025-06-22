@@ -1,0 +1,98 @@
+@page "/editar/{Id:int}"
+@using Microsoft.EntityFrameworkCore
+@inject PruebaTecContext _context
+@inject NavigationManager NavigationManager
+@using PruebaTec.Models
+@rendermode InteractiveServer
+
+<h3 class="text-xl font-bold mb-4">Editar Estudiante</h3>
+
+@if (estudiante == null)
+{
+    <p class="text-danger">Estudiante no encontrado.</p>
+}
+else
+{
+    <EditForm Model="@estudiante" OnValidSubmit="GuardarCambios" FormName="editarEstudianteForm">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="form-group">
+            <label>Nombres:</label>
+            <InputText class="form-control" @bind-Value="estudiante.Nombres" />
+        </div>
+
+        <div class="form-group">
+            <label>Apellidos:</label>
+            <InputText class="form-control" @bind-Value="estudiante.Apellidos" />
+        </div>
+
+        <div class="form-group">
+            <label>CURP:</label>
+            <InputText class="form-control" @bind-Value="estudiante.CURP" />
+        </div>
+
+        <div class="form-group">
+            <label>Teléfono:</label>
+            <InputText class="form-control" @bind-Value="estudiante.Telefono" />
+        </div>
+
+        <div class="form-group">
+            <label>Email:</label>
+            <InputText class="form-control" @bind-Value="estudiante.Email" />
+        </div>
+
+        <div class="form-group">
+            <label>Sexo:</label>
+            <InputSelect class="form-control" @bind-Value="estudiante.Sexo">
+                <option value="Masculino">Masculino</option>
+                <option value="Femenino">Femenino</option>
+                <option value="Otro">Otro</option>
+            </InputSelect>
+        </div>
+
+        <div class="form-group">
+            <label>Modalidad:</label>
+            <InputSelect class="form-control" @bind-Value="estudiante.Modalidad">
+                <option value="Presencial">Presencial</option>
+                <option value="Online">Online</option>
+                <option value="Ambos">Ambos</option>
+            </InputSelect>
+        </div>
+
+        <div class="form-group">
+            <label>Dirección:</label>
+            <InputText class="form-control" @bind-Value="estudiante.Direccion" />
+        </div>
+
+        <div class="form-group">
+            <label>Fecha de nacimiento:</label>
+            <InputDate class="form-control" @bind-Value="estudiante.FechaNacimiento" />
+        </div>
+
+        <button type="submit" class="btn btn-success mt-3">Guardar</button>
+        <a class="btn btn-secondary mt-3 ms-2" href="/">Cancelar</a>
+    </EditForm>
+}
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private Estudiante? estudiante;
+
+    protected override async Task OnInitializedAsync()
+    {
+        estudiante = await _context.Estudiantes.FindAsync(Id);
+    }
+
+    private async Task GuardarCambios()
+    {
+        if (estudiante != null)
+        {
+            _context.Update(estudiante);
+            await _context.SaveChangesAsync();
+            NavigationManager.NavigateTo("/");
+        }
+    }
+}

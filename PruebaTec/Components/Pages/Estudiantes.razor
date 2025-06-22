@@ -45,7 +45,8 @@ else if (estudiantes is not null && estudiantes.Any())
                     <td>@(e.EsBecado ? "Sí" : "No")</td>
                     <td>@e.Carrera?.NombreCarrera</td>
                     <td>
-<a class="btn btn-primary" href="@($"/estudiante/{e.Id}")">Ver detalles</a>
+                        <a class="btn btn-primary" href="@($"/estudiante/{e.Id}")">Ver detalles</a>
+                        <a class="btn btn-sm btn-danger" href="/eliminar/@e.Id">Eliminar</a>
 
                     </td>
                     

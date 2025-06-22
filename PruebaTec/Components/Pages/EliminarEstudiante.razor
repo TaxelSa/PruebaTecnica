@@ -1,0 +1,47 @@
+@page "/eliminar/{Id:int}"
+@using PruebaTec.Models
+@using Microsoft.EntityFrameworkCore
+@inject PruebaTecContext _context
+@inject NavigationManager NavigationManager
+
+<h3 class="text-xl font-bold mb-4 text-danger">Eliminando estudiante...</h3>
+
+@if (mensaje != null)
+{
+    <p class="text-success">@mensaje</p>
+}
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private string? mensaje;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var estudiante = await _context.Estudiantes.FindAsync(Id);
+
+            if (estudiante != null)
+            {
+                _context.Estudiantes.Remove(estudiante);
+                await _context.SaveChangesAsync();
+
+                mensaje = "Estudiante eliminado correctamente.";
+
+                // Redireccionar luego de 1.5 segundos
+                await Task.Delay(1500);
+                NavigationManager.NavigateTo("/");
+            }
+            else
+            {
+                mensaje = "Estudiante no encontrado.";
+            }
+        }
+        catch (Exception ex)
+        {
+            mensaje = $"Error al eliminar: {ex.Message}";
+        }
+    }
+}
