@@ -34,7 +34,7 @@ else if (estudiantes is not null && estudiantes.Any())
         <tbody>
             @foreach (var e in estudiantes)
             {
-                <tr>
+                <tr Key="@e.Id">
                     <td>@e.Id</td>
                     <td>@e.Nombres @e.Apellidos</td>
                     <td>@e.CURP</td>
@@ -45,14 +45,15 @@ else if (estudiantes is not null && estudiantes.Any())
                     <td>@(e.EsBecado ? "Sí" : "No")</td>
                     <td>@e.Carrera?.NombreCarrera</td>
                     <td>
-                        <button class="btn btn-sm btn-primary me-2" @onclick="() => EditarEstudiante(e.Id)">Editar</button>
-                        <button class="btn btn-sm btn-danger" @onclick="() => EliminarEstudiante(e.Id)">Eliminar</button>
+<a class="btn btn-primary" href="@($"/estudiante/{e.Id}")">Ver detalles</a>
+
                     </td>
+                    
                 </tr>
             }
         </tbody>
     </table>
-}
+} 
 else
 {
     <p>No hay estudiantes registrados.</p>
@@ -81,20 +82,10 @@ else
             isLoading = false;
         }
     }
-
-    private async Task EliminarEstudiante(int id)
+    private void VerDetalles(int id)
     {
-        var estudiante = await _context.Estudiantes.FindAsync(id);
-        if (estudiante != null)
-        {
-            _context.Estudiantes.Remove(estudiante);
-            await _context.SaveChangesAsync();
-            estudiantes = await _context.Estudiantes.Include(e => e.Carrera).ToListAsync();
-        }
-    }
+        Console.WriteLine($"Clic en Ver Detalles, ID: {id}");
 
-    private void EditarEstudiante(int id)
-    {
-        NavigationManager.NavigateTo($"/editar/{id}");
+        NavigationManager.NavigateTo($"/estudiante/{id}");
     }
 }

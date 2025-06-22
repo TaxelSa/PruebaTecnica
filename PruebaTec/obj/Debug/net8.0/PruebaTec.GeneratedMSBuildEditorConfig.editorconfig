@@ -36,6 +36,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFcnJvci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/xampp/htdocs/PruebaTecnica/PruebaTec/Components/Pages/EstudianteDetalle.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFc3R1ZGlhbnRlRGV0YWxsZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/xampp/htdocs/PruebaTecnica/PruebaTec/Components/Pages/Estudiantes.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFc3R1ZGlhbnRlcy5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 

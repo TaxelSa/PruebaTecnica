@@ -68,21 +68,3 @@ h1:focus {
 .darker-border-checkbox.form-check-input {
     border-color: #929292;
 }
-.skeleton-table {
-    margin: 1rem 0;
-}
-.skeleton-row {
-    height: 24px;
-    background: #e0e0e0;
-    margin-bottom: 8px;
-    border-radius: 4px;
-    animation: skeleton-loading 1.2s infinite linear alternate;
-}
-@keyframes skeleton-loading {
-    0% {
-        background-color: #e0e0e0;
-    }
-    100% {
-        background-color: #f5f5f5;
-    }
-}

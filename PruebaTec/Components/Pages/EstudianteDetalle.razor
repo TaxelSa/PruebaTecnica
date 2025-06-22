@@ -1,0 +1,72 @@
+@page "/estudiante/{Id:int}"
+@using PruebaTec.Models
+@inject PruebaTecContext _context
+@inject NavigationManager NavigationManager
+@using Microsoft.EntityFrameworkCore;
+
+
+<h3 class="text-xl font-bold mb-4">Detalles del Estudiante</h3>
+
+@if (estudiante == null)
+{
+    <p class="text-danger">Estudiante no Encontrado</p>
+}
+else
+{
+    <div class="card p-4">
+        <p><strong>Nombre:</strong> @estudiante.Nombres @estudiante.Apellidos</p>
+        <p><strong>CURP:</strong> @estudiante.CURP</p>
+        <p><strong>Correo:</strong> @estudiante.Email</p>
+        <p><strong>Teléfono:</strong> @estudiante.Telefono</p>
+        <p><strong>Sexo:</strong> @estudiante.Sexo</p>
+        <p><strong>Modalidad:</strong> @estudiante.Modalidad</p>
+        <p><strong>Becado:</strong> @(estudiante.EsBecado ? "Sí" : "No")</p>
+        <p><strong>Dirección:</strong> @estudiante.Direccion</p>
+        <p><strong>Fecha de Nacimiento:</strong> @estudiante.FechaNacimiento.ToShortDateString()</p>
+        <p><strong>Carrera:</strong> @estudiante.Carrera?.NombreCarrera</p>
+        <p><strong>Descripción:</strong> @estudiante.DescripcionPersonal</p>
+        <p><strong>Mascotas:</strong> @(estudiante.TieneMascotas ? estudiante.TiposMascotas : "No")</p>
+        <p><strong>Horario Comida:</strong> @estudiante.HorarioComida</p>
+
+
+    <div class="mt-4">
+        <a href="/editar/@estudiante.Id" class="btn-primary me-2">Modificar</a>
+        <button class="btn btn-danger me-2" @onclick="EliminarEstudiante">Eliminar</button>
+        <a href="/" class="btn btn-secondary mt-3">Volver</a>
+
+
+    </div>
+
+
+
+    </div>
+}
+
+@code{
+    [Parameter]
+    public int Id { get; set; }
+
+    private Estudiante? estudiante;
+
+    protected override async Task OnInitializedAsync()
+    {
+        estudiante = await _context.Estudiantes.Include(e => e.Carrera).FirstOrDefaultAsync(e => e.Id == Id);
+
+    }
+    private void Volver()
+    {
+        NavigationManager.NavigateTo("/");
+    }
+
+    private async Task EliminarEstudiante()
+    {
+        if (estudiante != null)
+        {
+             _context.Estudiantes.Remove(estudiante);
+        await _context.SaveChangesAsync();
+        NavigationManager.NavigateTo("/");
+        }
+        
+    }
+
+}
