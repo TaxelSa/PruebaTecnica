@@ -104,11 +104,21 @@
     </div>
 
     <button type="submit" class="btn btn-primary mt-3">Guardar</button>
+
+
+
 </EditForm>
+
+
+@if (!string.IsNullOrEmpty(mensaje))
+{
+    <div class="alert alert-danger mt-3">@mensaje</div>
+}
 
 @code {
     private Estudiante nuevoEstudiante = new();
     private List<Carrera> carreras = new();
+    private string? mensaje;
 
     protected override async Task OnInitializedAsync()
     {
@@ -117,13 +127,12 @@
 
     private async Task GuardarEstudiante()
     {
-        Console.WriteLine($"Nombre: {nuevoEstudiante.Nombres}");
-        Console.WriteLine($"Sexo: {nuevoEstudiante.Sexo}");
-        Console.WriteLine($"Teléfono: {nuevoEstudiante.Telefono}");
-
+     
         _context.Estudiantes.Add(nuevoEstudiante);
         await _context.SaveChangesAsync();
 
-        nuevoEstudiante = new(); // Limpia el formulario
+        mensaje = "Estudiante registrado";
+
+        nuevoEstudiante = new(); 
     }
 }

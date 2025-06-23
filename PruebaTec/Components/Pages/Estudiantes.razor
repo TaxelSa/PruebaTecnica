@@ -7,6 +7,11 @@
 
 <h3 class="text-xl font-bold mb-4">Lista de Estudiantes</h3>
 
+@if (mostrarMensaje)
+{
+    <div class="alert alert-success">@mensajeEliminacion</div>
+}
+
 @if (isLoading)
 {
     <p>Cargando estudiantes...</p>
@@ -47,7 +52,7 @@ else if (pagedEstudiantes is not null && pagedEstudiantes.Any())
                     <td>@e.Carrera?.NombreCarrera</td>
                     <td>
                         <a class="btn btn-primary" href="@($"/estudiante/{e.Id}")">Ver detalles</a>
-                        <a class="btn btn-sm btn-danger" href="/eliminar/@e.Id">Eliminar</a>
+                        <button class="btn btn-sm btn-danger" @onclick="() => EliminarEstudiante(e.Id)">Eliminar</button>
 
                     </td>
                     
@@ -73,7 +78,6 @@ else
 }
 
 @code {
-    private List<Estudiante>? estudiantes;
     private List<Estudiante>? pagedEstudiantes;
     private bool isLoading = true;
     private int paginaActual = 1;
@@ -142,6 +146,45 @@ else
     {
         NavigationManager.NavigateTo($"/estudiante/{id}");
     }
+
+private string? mensajeEliminacion;
+private bool mostrarMensaje = false;
+
+private async Task EliminarEstudiante(int id)
+{
+    var estudiante = await _context.Estudiantes.FindAsync(id);
+
+    if (estudiante is null)
+    {
+        mensajeEliminacion = $"Estudiante con ID {id} no encontrado.";
+        mostrarMensaje = true;
+        return;
+    }
+
+    try
+    {
+        _context.Estudiantes.Remove(estudiante);
+        await _context.SaveChangesAsync();
+
+        // Vuelve a cargar los datos paginados
+        await CargarDatos();
+
+        mensajeEliminacion = $"Estudiante '{estudiante.Nombres} {estudiante.Apellidos}' eliminado exitosamente.";
+        mostrarMensaje = true;
+
+        var _ = Task.Run(async () =>
+        {
+            await Task.Delay(2000);
+            mostrarMensaje = false;
+            await InvokeAsync(StateHasChanged);
+        });
+    }
+    catch (Exception ex)
+    {
+        mensajeEliminacion = $"Error al eliminar: {ex.Message}";
+        mostrarMensaje = true;
+    }
+}
 
 
 }
