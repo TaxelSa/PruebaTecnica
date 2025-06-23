@@ -70,6 +70,43 @@ else
             <InputDate class="form-control" @bind-Value="estudiante.FechaNacimiento" />
         </div>
 
+        <div class="form-group">
+            <label>Descripción General:</label>
+            <InputText class="form-control" @bind-Value="estudiante.DescripcionPersonal" />
+        </div>
+
+        <div>
+        <label>Carrera:</label>
+        <InputSelect @bind-Value="estudiante.IdCarrera" class="form-control">
+            <option value="">Seleccione</option>
+            @foreach (var c in carreras)
+            {
+                <option value="@c.IdCarrera">@c.NombreCarrera</option>
+            }
+        </InputSelect>
+    </div>
+
+    <div>
+        <label>¿Es Becado?</label>
+        <InputCheckbox @bind-Value="estudiante.EsBecado" />
+    </div>
+
+     <div>
+        <label>¿Tiene Mascotas?</label>
+        <InputCheckbox @bind-Value="estudiante.TieneMascotas" />
+    </div>
+
+    <div>
+        <label>¿Cuáles?:</label>
+        <InputText @bind-Value="estudiante.TiposMascotas" class="form-control" />
+    </div>
+
+    <div>
+        <label>Horario de comida:</label>
+        <InputText @bind-Value="estudiante.HorarioComida" class="form-control" />
+    </div>
+
+
         <button type="submit" class="btn btn-success mt-3">Guardar</button>
         <a class="btn btn-secondary mt-3 ms-2" href="/">Cancelar</a>
     </EditForm>
@@ -84,6 +121,8 @@ else
     protected override async Task OnInitializedAsync()
     {
         estudiante = await _context.Estudiantes.FindAsync(Id);
+                carreras = await _context.Carreras.ToListAsync();
+
     }
 
     private async Task GuardarCambios()
@@ -95,4 +134,9 @@ else
             NavigationManager.NavigateTo("/");
         }
     }
+
+        private List<Carrera> carreras = new();
+
+            
+
 }
